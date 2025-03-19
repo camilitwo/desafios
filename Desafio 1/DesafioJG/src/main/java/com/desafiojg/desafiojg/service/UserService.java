@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserService {
 
-
     private final UserRepository userRepository;
 
     public User createUser(String username, String password, UserRole role) {
