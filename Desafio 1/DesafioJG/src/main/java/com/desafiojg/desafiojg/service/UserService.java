@@ -5,14 +5,15 @@ import com.desafiojg.desafiojg.factory.UserFactory;
 import com.desafiojg.desafiojg.model.User;
 import com.desafiojg.desafiojg.model.UserRole;
 import com.desafiojg.desafiojg.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
     public User createUser(String username, String password, UserRole role) {
         UserFactory factory = getFactory(role); // Obtiene la fábrica correspondiente al rol
@@ -21,15 +22,10 @@ public class UserService {
     }
 
     private UserFactory getFactory(UserRole role) {
-        switch (role) {
-            case ADMIN:
-                return new AdminFactory();
-            case USER:
-                return new DefaultUserFactory();
-            case GUEST:
-                return new GuestFactory();
-            default:
-                throw new IllegalArgumentException("Rol no válido: " + role);
-        }
+        return switch (role) {
+            case ADMIN -> new AdminFactory();
+            case USER -> new DefaultUserFactory();
+            case GUEST -> new GuestFactory();
+        };
     }
 }
