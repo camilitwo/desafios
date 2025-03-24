@@ -1,4 +1,4 @@
-# Desafío Semana 2 (24-03): Introducción a Patrones de Diseño - Factory Pattern en Spring Boot
+# Desafío Semana 2 (24-03): Patrón Strategy para Cálculo de Comisiones en Spring Boot
 
 ## Objetivo
 Aplicar el Patrón Strategy para encapsular diferentes estrategias de cálculo de comisión según el tipo de vendedor: Junior, Senior y Freelance.
