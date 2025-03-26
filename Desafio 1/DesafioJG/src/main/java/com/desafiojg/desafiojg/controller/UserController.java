@@ -3,15 +3,15 @@ package com.desafiojg.desafiojg.controller;
 import com.desafiojg.desafiojg.model.User;
 import com.desafiojg.desafiojg.model.UserRole;
 import com.desafiojg.desafiojg.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/users") // Ruta base para todos los endpoints de este controlador
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping // Endpoint para crear un usuario
     public User createUser(
