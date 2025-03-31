@@ -2,7 +2,9 @@ package com.desafio.desafio2.dto;
 
 public class VentaRequest {
     private String tipoVendedor; // "JUNIOR", "SENIOR", "FREELANCE"
-    private double montoVendido;
+    private double monto;
+    private Long vendedorId; // ID del vendedor
+
 
     // Getters y Setters
     public String getTipoVendedor() {
@@ -14,10 +16,19 @@ public class VentaRequest {
     }
 
     public double getMontoVendido() {
-        return montoVendido;
+        return monto;
     }
 
-    public void setMontoVendido(double montoVendido) {
-        this.montoVendido = montoVendido;
+    public void setMontoVendido(double monto) {
+        this.monto = monto;
     }
+    public Long getVendedorId() {
+        return vendedorId;
+    }
+
+    public void setVendedorId(Long vendedorId) {
+        this.vendedorId = vendedorId;
+    }
+
+
 }

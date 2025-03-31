@@ -1,5 +1,7 @@
 package com.desafio.desafio2.service;
 
+import com.desafio.desafio2.dto.ComisionResponse;
+import com.desafio.desafio2.dto.VentaRequest;
 import com.desafio.desafio2.model.TipoVendedor;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +11,26 @@ public class ComisionFactory {
         TipoVendedor tipoVendedor = TipoVendedor.valueOf(tipo);
         switch (tipoVendedor) {
             case JUNIOR:
-                return new JuniorCommissionStrategy();
+                return new JuniorCommissionStrategy() {
+                    @Override
+                    public ComisionResponse calcularComision(VentaRequest request) {
+                        return null;
+                    }
+                };
             case SENIOR:
-                return new SeniorCommissionStrategy();
+                return new SeniorCommissionStrategy() {
+                        @Override
+                        public ComisionResponse calcularComision(VentaRequest request) {
+                            return null; // Implement custom behavior if necessary
+                        }
+                    };
             case FREELANCE:
-                return new FreelanceCommissionStrategy();
+                return new FreelanceCommissionStrategy() {
+                        @Override
+                        public ComisionResponse calcularComision(VentaRequest request) {
+                            return null; // Implement custom behavior if necessary
+                        }
+                    };
             default:
                 throw new IllegalArgumentException("Tipo no soportado: " + tipo);
         }

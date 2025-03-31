@@ -4,6 +4,9 @@ public class ComisionResponse {
     private double comision;
     private String mensaje;
 
+    public ComisionResponse(double comision, String s) {
+    }
+
     // Getters y setters
     public double getComision() {
         return comision;
