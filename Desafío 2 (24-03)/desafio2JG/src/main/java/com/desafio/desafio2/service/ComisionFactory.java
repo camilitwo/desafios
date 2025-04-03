@@ -11,26 +11,11 @@ public class ComisionFactory {
         TipoVendedor tipoVendedor = TipoVendedor.valueOf(tipo);
         switch (tipoVendedor) {
             case JUNIOR:
-                return new JuniorCommissionStrategy() {
-                    @Override
-                    public ComisionResponse calcularComision(VentaRequest request) {
-                        return null;
-                    }
-                };
+                return new JuniorCommissionStrategy() ;
             case SENIOR:
-                return new SeniorCommissionStrategy() {
-                        @Override
-                        public ComisionResponse calcularComision(VentaRequest request) {
-                            return null; // Implement custom behavior if necessary
-                        }
-                    };
+                return new SeniorCommissionStrategy() ;
             case FREELANCE:
-                return new FreelanceCommissionStrategy() {
-                        @Override
-                        public ComisionResponse calcularComision(VentaRequest request) {
-                            return null; // Implement custom behavior if necessary
-                        }
-                    };
+                return new FreelanceCommissionStrategy();
             default:
                 throw new IllegalArgumentException("Tipo no soportado: " + tipo);
         }

@@ -23,7 +23,7 @@ public class ComisionServiceImpl {
     @Transactional
     public ComisionResponse calcularComision(VentaRequest request) {
         // 1. Validaciones iniciales
-        if (request == null || request.getTipoVendedor() == null || request.getMontoVendido() <= 0) {
+        if (request == null || request.getTipoVendedor() == null || request.getMonto() <= 0) {
             throw new IllegalArgumentException("La solicitud no es válida");
         }
 
@@ -42,21 +42,21 @@ public class ComisionServiceImpl {
         }
 
         // 4. Calcular comisión
-        double comision = strategy.calculateCommission(request.getMontoVendido());
+        double comision = strategy.calculateCommission(request.getMonto());
 
         // Debug: Verificar cálculo
         System.out.println("[DEBUG] Comisión calculada: " + comision +
-                " para monto: " + request.getMontoVendido() +
+                " para monto: " + request.getMonto() +
                 " y tipo: " + tipo);
 
         // 5. Buscar o crear vendedor
-        Vendedor vendedor = vendedorRepository.findByTipo(tipo)
+        Vendedor vendedor = vendedorRepository.findById(request.getVendedorId())
                 .orElseGet(() -> crearVendedorPorDefecto(tipo));
 
         // 6. Crear y guardar venta
         Venta venta = new Venta();
         venta.setVendedor(vendedor);
-        venta.setMonto(request.getMontoVendido()); // Asegurar que coincida con la entidad
+        venta.setMonto(request.getMonto()); // Asegurar que coincida con la entidad
         venta.setComision(comision);
         venta.setFechaVenta(LocalDateTime.now());
 
