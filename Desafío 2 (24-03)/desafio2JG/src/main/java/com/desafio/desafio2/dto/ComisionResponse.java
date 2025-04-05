@@ -1,10 +1,15 @@
 package com.desafio.desafio2.dto;
 
+import lombok.Builder;
+
+@Builder
 public class ComisionResponse {
     private double comision;
     private String mensaje;
 
     public ComisionResponse(double comision, String s) {
+        this.comision = comision;
+        this.mensaje = s;
     }
 
     // Getters y setters

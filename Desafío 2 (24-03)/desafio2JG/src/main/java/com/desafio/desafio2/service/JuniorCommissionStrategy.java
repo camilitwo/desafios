@@ -1,6 +1,9 @@
 package com.desafio.desafio2.service;
 
-public abstract class JuniorCommissionStrategy implements CommissionStrategy {
+import com.desafio.desafio2.dto.ComisionResponse;
+import com.desafio.desafio2.dto.VentaRequest;
+
+public class JuniorCommissionStrategy implements CommissionStrategy {
     @Override
     public double calculateCommission(double totalSales) {
         return totalSales * 0.05;
