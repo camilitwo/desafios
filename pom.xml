@@ -8,11 +8,11 @@
         <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.desafio3</groupId>
-    <artifactId>producto-api</artifactId>
+    <groupId>com.desafios</groupId>
+    <artifactId>sist-ordenes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>producto-api</name>
-    <description>producto-api</description>
+    <name>sist-ordenes</name>
+    <description>sist-ordenes</description>
     <url/>
     <licenses>
         <license/>
