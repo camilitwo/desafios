@@ -1,66 +1,169 @@
-# Bienvenido a los Desafíos que ayuda a mejorar tus habilidades en programación
+# API de Órdenes de Compra
 
-## Reglas
+Este proyecto consiste en una API RESTful desarrollada con Spring Boot 3.4.4 para gestionar órdenes de compra, incluyendo el registro de productos asociados, validaciones, paginación, búsquedas, y documentación con Swagger.
 
-1. Hacer un fork de este repositorio y crear una carpeta con tu nombre en cada desafío.
-2. Realizar el desafío en tu carpeta.
-3. Hacer un pull request a este repositorio con tu solución.
-4. No se aceptarán soluciones que no sigan las reglas anteriores.
-5. Contarás con una semana para realizar el desafío.
-6. Si tienes alguna duda, puedes abrir un issue en este repositorio.
-7. ¡Diviértete!
+---
 
-## Desafíos
-1. [Introducción a Patrones de Diseño - Factory Pattern en Spring Boot](/Desafio%201/README.md)
+## 🚀 Tecnologías utilizadas
 
-## ¿Cómo hacer un pull request?
-1. Hacer un fork de este repositorio.
-2. Clonar el fork en tu máquina local.
-3. Crear una rama con tu nombre.
-4. Crear una carpeta con tu nombre en el desafío que quieras realizar.
-5. Realizar los cambios en tu rama.
-6. Hacer un push a tu rama.
-7. Crear un pull request a la rama main de este repositorio.
-8. Esperar a que tu pull request sea aceptado o recibir feedback para mejorarlo.
+- Java 17
+- Spring Boot 3.4.4
+- Spring Data JPA
+- Spring Validation
+- PostgreSQL
+- Lombok
+- Swagger / OpenAPI (springdoc-openapi-starter-webmvc-ui 2.2.0)
+- Maven
 
-## ¿Cómo clonar este repositorio?
-1. Copiar la URL del repositorio.
-2. Abrir una terminal.
-3. Ejecutar el siguiente comando:
-```bash
-git clone <URL>
+---
+
+## 🧱 Modelo de Datos
+
+### Entidad `Orden`
+```java
+Long id
+String cliente
+LocalDate fecha
+Double total
+List<Producto> productos
 ```
 
-## ¿Cómo crear una rama?
-1. Abrir una terminal.
-2. Ejecutar el siguiente comando:
-```bash
-git checkout -b <nombre-rama>
+### Entidad `Producto`
+```java
+Long id
+String nombre
+Integer cantidad
+Double precioUnitario
+Orden orden
 ```
 
-## ¿Cómo hacer un push?
-1. Abrir una terminal.
-2. Ejecutar el siguiente comando:
-```bash
-git push origin <nombre-rama>
+---
+
+## 📦 Endpoints principales
+
+### ✅ Crear una orden
+**POST** `/ordenes`
+
+```json
+{
+  "cliente": "Ana Torres",
+  "fecha": "2024-07-15",
+  "productos": [
+    {
+      "nombre": "Notebook",
+      "cantidad": 1,
+      "precioUnitario": 700.00
+    }
+  ]
+}
 ```
 
-## ¿Cómo crear un pull request?
-1. Ir a la pestaña de pull requests.
-2. Hacer clic en el botón "New pull request".
-3. Seleccionar la rama main como base y tu rama como comparación.
-4. Hacer clic en el botón "Create pull request".
+📌 El campo `total` se calcula automáticamente a partir de los productos.
 
-## ¿Cómo actualizar mi fork?
-1. Agregar el repositorio original como remoto.
-2. Hacer un fetch al remoto original.
-3. Hacer un rebase de la rama main del remoto original con la rama main de tu fork.
-4. Hacer un push de la rama main de tu fork.
-```bash
-git remote add upstream <URL>
-git fetch upstream
-git rebase upstream/main
-git push origin main
+---
+
+### 🔍 Buscar órdenes por cliente o fecha
+**GET** `/ordenes/buscar`
+
+Parámetros opcionales:
+- `cliente` → coincidencia exacta
+- `fecha` → formato `YYYY-MM-DD`
+
+Incluye paginación con `page` y `size`.
+
+---
+
+### 🔍 Buscar con filtros (POST + paginación)
+**POST** `/ordenes/buscarpaginado?page=0&size=5`
+
+```json
+{
+  "cliente": "Pedro"
+}
 ```
 
+---
 
+### 📄 Listar órdenes paginadas
+**GET** `/ordenes?page=0&size=10`
+
+---
+
+## 🛡 Validaciones
+
+- `cliente`: obligatorio (`@NotBlank`)
+- `fecha`: no puede ser futura (`@PastOrPresent`)
+- `productos`: cada producto debe tener:
+    - `nombre`: obligatorio
+    - `cantidad`: mínimo 1
+    - `precioUnitario`: mínimo 1
+
+---
+
+## 📐 Patrón de diseño aplicado
+
+Se utilizó el **Builder Pattern** para construir objetos `OrdenResponse` desde entidades `Orden`, separando la lógica de construcción en una clase especializada:
+
+```java
+OrdenResponseBuilder.fromEntity(orden);
+```
+
+Esto mejora la organización, reduce repetición y sigue buenas prácticas de diseño orientado a objetos.
+
+---
+
+## 🧪 Documentación interactiva (Swagger)
+
+Disponible en:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+---
+
+## 🐘 Base de datos
+
+Se utiliza PostgreSQL con conexión por Docker. Tablas creadas:
+
+- `orden`
+- `producto`
+
+---
+
+## 📂 Estructura de paquetes
+
+```
+com.desafios.sistordenes
+├── builder
+│   └── OrdenResponseBuilder.java
+├── controller
+│   └── OrdenController.java
+├── dto
+│   └── OrdenRequest / OrdenResponse / ProductoRequest / ProductoResponse / OrdenFiltroRequest
+├── exception
+│   └── GlobalExceptionHandler.java
+├── model
+│   └── Orden.java / Producto.java
+├── repository
+│   └── OrdenRepository.java
+├── service
+│   └── OrdenService.java
+└── SistOrdenesApplication.java
+```
+
+---
+
+## ✅ Estado
+
+✔ 100% funcional  
+✔ Probado con Postman y cURL  
+✔ Documentado con Swagger  
+✔ Patrón de diseño aplicado  
+✔ Validación robusta
+
+---
+
+## 🙌 Autor
+
+Desarrollado por Jorge Gangale como parte del Desafío Semana 4 🚀

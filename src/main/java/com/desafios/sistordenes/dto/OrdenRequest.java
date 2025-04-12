@@ -4,8 +4,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
+import com.desafios.sistordenes.dto.ProductoRequest;
+
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class OrdenRequest {
@@ -18,4 +21,10 @@ public class OrdenRequest {
 
     @Min(value = 1, message = "El total debe ser mayor o igual a 1")
     private Double total;
+
+    private List<ProductoRequest> productos;
+
+
+
 }
+

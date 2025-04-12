@@ -43,12 +43,16 @@ public class OrdenController {
 
     @PostMapping("/buscarpaginado")
     public ResponseEntity<Page<OrdenResponse>> buscarConPaginacion(
-            @RequestBody OrdenFiltroRequest filtro,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestBody @Valid OrdenFiltroRequest filtro,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
 
-        Pageable pageable = PageRequest.of(page, Math.min(size, 50));
+        // Limitar tamaño máximo de página
+        int safeSize = Math.min(size, 50);
+        Pageable pageable = PageRequest.of(page, safeSize);
+
         return ResponseEntity.ok(service.buscar(filtro.getCliente(), filtro.getFecha(), pageable));
     }
+
 
 }
