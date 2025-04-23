@@ -1,0 +1,95 @@
+.content {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background-image:
+    url("https://www.transparenttextures.com/patterns/cubes.png"),
+    linear-gradient(
+        to right top,
+        #b3cde0,
+        #a2d4ec,
+        #89c9e9,
+        #7fc5f2,
+        #73bdf4,
+        #65b2f0,
+        #57a7ec,
+        #499ce9,
+        #3c90e3,
+        #3084dd,
+        #2478d7,
+        #186cd1
+    );
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+/* Tema claro (por defecto) */
+body.light-theme {
+  background-color: #f0f4f8;
+  color: #1b1b1b;
+}
+
+/* Tema oscuro morado elegante */
+body.dark-theme {
+  background-color: #1e1b2e; // Morado muy oscuro, casi gris
+  color: #e2dff4; // Lavanda grisácea
+
+  mat-card {
+    background-color: #2a263d; // Card más claro que el fondo
+    color: #e2dff4;
+    box-shadow: 0 4px 12px rgba(100, 80, 160, 0.2);
+  }
+
+  mat-form-field {
+    color: #d5cfe6;
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #a49cbc;
+  }
+
+  input {
+    background-color: #322d48;
+    color: #f0eef7;
+  }
+
+  button {
+    background-color: #52497d;
+    color: white;
+
+    &:hover {
+      background-color: #5f568b;
+    }
+  }
+
+  .mat-raised-button.mat-primary {
+    background-color: #6d639e;
+    color: white;
+
+    &:hover {
+      background-color: #7e73b0;
+    }
+  }
+
+  .mat-stroked-button.mat-warn {
+    color: #f6b1c3;
+    border-color: #f6b1c3;
+
+    &:hover {
+      background-color: rgba(246, 177, 195, 0.08);
+    }
+  }
+}
+
+  .mat-stroked-button.mat-warn {
+    color: #ffb3d9;
+    border-color: #ffb3d9;
+
+    &:hover {
+      background-color: rgba(255, 179, 217, 0.1);
+    }
+  }

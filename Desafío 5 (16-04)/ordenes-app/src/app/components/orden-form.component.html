@@ -1,0 +1,78 @@
+<div class="container mx-auto p-4 max-w-4xl">
+  <!-- Encabezado -->
+  <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 mb-8 shadow-lg">
+    <div class="flex items-center justify-between flex-wrap">
+      <div>
+        <h2 class="text-2xl font-semibold flex items-center text-gray-800">
+          Registrar Nueva Orden
+        </h2>
+        <p class="text-sm mt-2 text-gray-600">
+          Completa los datos para registrar una nueva orden de compra.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <mat-card class="bg-white rounded-xl shadow-md overflow-hidden">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="p-6 space-y-4">
+      <!-- Campo Cliente -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Cliente</mat-label>
+        <input
+          matInput
+          formControlName="cliente"
+          placeholder="Ej: Juan Pérez"
+          class="bg-gray-50 rounded-md"
+        />
+        <mat-error *ngIf="form.get('cliente')?.errors?.['required'] && form.get('cliente')?.touched">
+          El nombre del cliente es obligatorio
+        </mat-error>
+        <mat-error *ngIf="form.get('cliente')?.errors?.['minlength'] && form.get('cliente')?.touched">
+          Debe tener al menos {{form.get('cliente')?.errors?.['minlength']?.requiredLength}} caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo Fecha -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Fecha</mat-label>
+        <input
+          matInput
+          type="date"
+          formControlName="fecha"
+          class="bg-gray-50 rounded-md"
+        />
+        <mat-error *ngIf="form.get('fecha')?.errors?.['required'] && form.get('fecha')?.touched">
+          La fecha es obligatoria
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Botones -->
+      <div class="flex justify-end gap-4 pt-4">
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="cancelar()"
+          class="px-6 py-2 flex items-center gap-2"
+        >
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || isSubmitting"
+          class="px-6 py-2 flex items-center gap-2"
+        >
+          <mat-icon *ngIf="!isSubmitting">save</mat-icon>
+          <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+          Registrar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+<p class="text-red-500">¿Esto se muestra?</p>
+
