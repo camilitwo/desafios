@@ -15,4 +15,7 @@ public class ProductoRequest {
 
     @Min(1)
     private Double precioUnitario;
+
+    private Long ordenId; // opcional, según tu lógica
+
 }
