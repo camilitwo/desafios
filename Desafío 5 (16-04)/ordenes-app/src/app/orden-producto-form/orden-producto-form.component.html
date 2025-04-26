@@ -1,0 +1,106 @@
+<div class="container mx-auto p-4 max-w-4xl">
+  <!-- Encabezado -->
+  <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-6 mb-8 shadow-lg">
+    <div class="flex items-center justify-between flex-wrap">
+      <div>
+        <h2 class="text-2xl font-semibold flex items-center text-gray-800">
+          <mat-icon class="mr-2 text-green-600">add_shopping_cart</mat-icon>
+          Agregar Producto a la Orden #{{ ordenId }}
+        </h2>
+        <p class="text-sm mt-2 text-gray-600">
+          Completa los datos para registrar un nuevo producto.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <mat-card class="bg-white rounded-xl shadow-md overflow-hidden">
+    <form [formGroup]="form" (ngSubmit)="agregarProducto()" class="p-6 space-y-4">
+      <!-- Campo Nombre -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Nombre del producto</mat-label>
+        <input
+          matInput
+          formControlName="nombre"
+          placeholder="Ej: Lápiz azul"
+          class="bg-gray-50 rounded-md"
+        />
+        @if (form.get('nombre')?.errors?.['required'] && form.get('nombre')?.touched) {
+          <mat-error>
+            El nombre del producto es obligatorio
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Campo Cantidad -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Cantidad</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="cantidad"
+          class="bg-gray-50 rounded-md"
+        />
+        @if (form.get('cantidad')?.errors?.['required'] && form.get('cantidad')?.touched) {
+          <mat-error>
+            La cantidad es obligatoria
+          </mat-error>
+        }
+        @if (form.get('cantidad')?.errors?.['min'] && form.get('cantidad')?.touched) {
+          <mat-error>
+            Mínimo 1 unidad
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Campo Precio Unitario -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Precio unitario</mat-label>
+        <span matPrefix>$ &nbsp;</span>
+        <input
+          matInput
+          type="number"
+          formControlName="precioUnitario"
+          min="0.01"
+          step="0.01"
+          class="bg-gray-50 rounded-md"
+        />
+        @if (form.get('precioUnitario')?.errors?.['required'] && form.get('precioUnitario')?.touched) {
+          <mat-error>
+            El precio unitario es obligatorio
+          </mat-error>
+        }
+        @if (form.get('precioUnitario')?.errors?.['min'] && form.get('precioUnitario')?.touched) {
+          <mat-error>
+            El precio debe ser mayor que $0.00
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Botones -->
+      <div class="flex justify-end gap-4 pt-4">
+        <button
+          mat-stroked-button
+          color="warn"
+          type="button"
+          (click)="volver()"
+          class="px-6 py-2 flex items-center gap-2"
+        >
+          <mat-icon>cancel</mat-icon>
+          Volver
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid"
+          class="px-6 py-2 flex items-center gap-2"
+        >
+          <mat-icon>add</mat-icon>
+          Agregar Producto
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
