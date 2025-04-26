@@ -2,7 +2,9 @@ package com.desafios.sistordenes.controller;
 
 import com.desafios.sistordenes.dto.*;
 import com.desafios.sistordenes.model.Orden;
+import com.desafios.sistordenes.service.EmailService;
 import com.desafios.sistordenes.service.OrdenService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -92,6 +95,28 @@ public class OrdenController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
+    @Autowired
+    private EmailService emailService;
+
+    @PostMapping("/email")
+    public ResponseEntity<Map<String, String>> enviarPorEmail(@RequestBody EmailRequest request) {
+        try {
+            if (request.getEmails() == null || request.getEmails().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("message", "Debe ingresar al menos un email."));
+            }
+
+            if (request.getOrdenes() == null || request.getOrdenes().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("message", "Debe enviar órdenes para generar el CSV."));
+            }
+
+            emailService.enviarEmailConCsv(request.getEmails(), request.getOrdenes());
+
+            return ResponseEntity.ok(Map.of("message", "Correo enviado correctamente."));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(Map.of("message", "Error al enviar el correo."));
+        }
+    }
 
 
 }
