@@ -13,4 +13,7 @@ public interface OrdenRepository extends JpaRepository<Orden, Long> {
 
 
     Page<Orden> findByFecha(LocalDate fecha, Pageable pageable);
+
+    // 🆕 Nuevo método: buscar por cliente y fecha juntos
+    Page<Orden> findByClienteIgnoreCaseAndFecha(String cliente, LocalDate fecha, Pageable pageable);
 }
