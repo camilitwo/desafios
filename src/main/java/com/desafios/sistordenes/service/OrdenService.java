@@ -58,15 +58,25 @@ public class OrdenService {
     }
 
     public Page<OrdenResponse> buscar(String cliente, LocalDate fecha, Pageable pageable) {
-        if (cliente != null) {
-            return repository.findByClienteIgnoreCase(cliente, pageable)
+        if ((cliente != null && !cliente.trim().isEmpty()) && fecha == null) {
+            // Buscar solo por cliente
+            return repository.findByClienteIgnoreCase(cliente.trim(), pageable)
                     .map(OrdenResponseBuilder::fromEntity);
-        } else if (fecha != null) {
+        } else if (fecha != null && (cliente == null || cliente.trim().isEmpty())) {
+            // Buscar solo por fecha
             return repository.findByFecha(fecha, pageable)
                     .map(OrdenResponseBuilder::fromEntity);
+        } else if ((cliente != null && !cliente.trim().isEmpty()) && fecha != null) {
+            // (Opcional) Buscar por cliente Y fecha si lo quieres
+            return repository.findByClienteIgnoreCaseAndFecha(cliente.trim(), fecha, pageable)
+                    .map(OrdenResponseBuilder::fromEntity);
+        } else {
+            // Si cliente y fecha son nulos o vacíos → traer todo
+            return repository.findAll(pageable)
+                    .map(OrdenResponseBuilder::fromEntity);
         }
-        return listar(pageable);
     }
+
 
     public Orden getOrdenPorId(Long id) {
         return repository.findById(id)
